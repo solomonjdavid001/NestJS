@@ -17,7 +17,7 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            sudo docker build -t $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_BUILD_NUM .
+            sudo docker build -t $DOCKERHUB_USERNAME/nestjs:$CIRCLE_BUILD_NUM .
       - run:
           name: Push application Docker image
           command: |
