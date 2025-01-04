@@ -31,7 +31,8 @@ RUN corepack enable
 WORKDIR /app
 
 # Copy built files and package files from builder
-COPY --from=builder /app/dist /app/package.json /app/pnpm-lock.yaml ./
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
 
 # Install only production dependencies
 RUN pnpm install --frozen-lockfile --prod
