@@ -1,0 +1,28 @@
+version: 2.1
+
+jobs:
+  build-and-push:
+    docker:
+      - image: cimg/node:20.0
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Login to Docker Hub
+          command: echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      - run:
+          name: Build Docker image
+          command: docker build -t $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1 .
+      - run:
+          name: Push Docker image
+          command: |
+            docker push $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1
+            docker tag $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1 $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:latest
+            docker push $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:latest
+
+workflows:
+  build-deploy:
+    jobs:
+      - build-and-push:
+          context: docker-hub-creds
