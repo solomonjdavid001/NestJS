@@ -22,7 +22,7 @@ jobs:
           name: Push application Docker image
           command: |
             sudo docker push $DOCKERHUB_USERNAME/nestjs:$CIRCLE_BUILD_NUM
-            sudo docker tag $DOCKERHUB_USERNAME/nestjs:$CIRCLE_BUILD_NUM $DOCKERHUB_USERNAME/$nestjs:latest
+            sudo docker tag $DOCKERHUB_USERNAME/nestjs:$CIRCLE_BUILD_NUM $DOCKERHUB_USERNAME/nestjs:latest
             sudo docker push $DOCKERHUB_USERNAME/nestjs:latest
 workflows:
   build-deploy:
